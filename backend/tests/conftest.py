@@ -1,4 +1,5 @@
 import os
+import shutil
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -10,7 +11,7 @@ from sqlalchemy import Engine
 from tailor import db
 from tailor.config import Settings, load_settings
 from tailor.llm import LLMConfig
-from tailor.llm.prompts import PromptLibrary
+from tailor.llm.prompts import DEFAULT_PROMPTS_DIR, PromptLibrary
 from tailor.main import create_app
 
 TOKEN = "test-token"
@@ -50,8 +51,9 @@ def settings() -> Settings:
 
 @pytest.fixture
 def prompts(tmp_path: Path) -> PromptLibrary:
+    """Les vrais prompts du dépôt, plus un prompt de démonstration minimal."""
     directory = tmp_path / "prompts"
-    directory.mkdir()
+    shutil.copytree(DEFAULT_PROMPTS_DIR, directory)
     (directory / "demo.md").write_text(DEMO_PROMPT, encoding="utf-8")
     return PromptLibrary(directory)
 

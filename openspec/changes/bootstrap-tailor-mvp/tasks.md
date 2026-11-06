@@ -22,13 +22,13 @@
 
 ## 3. Profil maître (M1)
 
-- [ ] 3.1 Créer les modèles et migrations `fact`, `fact_revision`, `profile_version`, `preference`, `answer_bank` ; vérifier par des tests qu'une modification crée une révision, conserve l'identifiant et incrémente la version du profil
-- [ ] 3.2 Implémenter l'extraction du texte des PDF et DOCX, avec le refus explicite des PDF sans couche texte ; vérifier sur des fixtures (PDF texte, PDF scanné, DOCX)
-- [ ] 3.3 Implémenter l'extraction structurée du CV en faits avec passage source, et le rejet des faits dont le passage est introuvable ; vérifier avec le faux fournisseur et un test d'invariant « passage présent dans le texte »
-- [ ] 3.4 Créer l'API du profil (brouillon d'import, validation, CRUD des faits, retrait, liens de preuve des compétences, traductions des champs protégés) ; vérifier par des tests d'API, dont le statut « déclarative » ou « étayée » d'une compétence
-- [ ] 3.5 Créer l'écran d'import et de revue (brouillon à côté de l'extrait source, corrections, validation) et l'éditeur de profil ; vérifier en important un CV fictif de bout en bout dans l'interface
-- [ ] 3.6 Créer l'écran des préférences de recherche et de la banque de réponses ; vérifier par un test d'API et manuellement dans l'interface
-- [ ] 3.7 Implémenter l'export JSON complet (avec le schéma documenté dans `docs/export.md`) et la suppression totale avec confirmation ; vérifier par un test aller-retour export → suppression → base vide
+- [x] 3.1 Créer les modèles et migrations `fact`, `fact_revision`, `profile_version`, `preference`, `answer_bank` ; vérifier par des tests qu'une modification crée une révision, conserve l'identifiant et incrémente la version du profil
+- [x] 3.2 Implémenter l'extraction du texte des PDF et DOCX, avec le refus explicite des PDF sans couche texte ; vérifier sur des fixtures (PDF texte, PDF scanné, DOCX)
+- [x] 3.3 Implémenter l'extraction structurée du CV en faits avec passage source, et le rejet des faits dont le passage est introuvable ; vérifier avec le faux fournisseur et un test d'invariant « passage présent dans le texte »
+- [x] 3.4 Créer l'API du profil (brouillon d'import, validation, CRUD des faits, retrait, liens de preuve des compétences, traductions des champs protégés) ; vérifier par des tests d'API, dont le statut « déclarative » ou « étayée » d'une compétence
+- [x] 3.5 Créer l'écran d'import et de revue (brouillon à côté de l'extrait source, corrections, validation) et l'éditeur de profil ; vérifier en important un CV fictif de bout en bout dans l'interface
+- [x] 3.6 Créer l'écran des préférences de recherche et de la banque de réponses ; vérifier par un test d'API et manuellement dans l'interface
+- [x] 3.7 Implémenter l'export JSON complet (avec le schéma documenté dans `docs/export.md`) et la suppression totale avec confirmation ; vérifier par un test aller-retour export → suppression → base vide
 
 ## 4. Sourcing des offres (M2)
 

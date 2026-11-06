@@ -9,6 +9,7 @@ from typing import Any
 @dataclass(frozen=True)
 class ProviderRequest:
     task: str
+    prompt_id: str
     model: str
     system: str
     user: str

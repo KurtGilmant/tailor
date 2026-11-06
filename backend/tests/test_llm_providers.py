@@ -31,6 +31,7 @@ Handler = Callable[[httpx2.Request], httpx2.Response]
 def request(model: str = "claude-opus-5-5", effort: str | None = "low") -> ProviderRequest:
     return ProviderRequest(
         task="extract",
+        prompt_id="demo",
         model=model,
         system="sys",
         user="usr",

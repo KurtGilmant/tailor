@@ -13,6 +13,7 @@ import hashlib
 import json
 import time
 from collections.abc import Mapping
+from pathlib import Path
 from typing import TypeVar
 
 from pydantic import BaseModel, ValidationError
@@ -90,7 +91,12 @@ class LLMGateway:
                     guard=cloud_guard,
                 )
             else:
-                providers[name] = FakeProvider(name, is_cloud=provider.is_cloud, guard=cloud_guard)
+                providers[name] = FakeProvider(
+                    name,
+                    is_cloud=provider.is_cloud,
+                    guard=cloud_guard,
+                    replies_dir=Path(provider.replies_dir) if provider.replies_dir else None,
+                )
         return cls(
             engine=engine, config=config, prompts=prompts or PromptLibrary(), providers=providers
         )
@@ -118,6 +124,7 @@ class LLMGateway:
         for _attempt in range(self.config.max_attempts):
             request = ProviderRequest(
                 task=task.value,
+                prompt_id=prompt_id,
                 model=route.model,
                 system=prompt.system,
                 user=user,

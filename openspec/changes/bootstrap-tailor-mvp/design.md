@@ -48,7 +48,7 @@ Un seul processus Python sert l'API et l'interface web buildée sur `127.0.0.1:8
 - SQLite via SQLModel, migrations Alembic. Les données vont dans le dossier applicatif de l'OS (`platformdirs` : `~/Library/Application Support/Tailor/`), **hors du dépôt**, avec des permissions `700`.
 - **Faits append-only** : une table `fact` (id ULID stable, type, révision courante, retiré oui/non) et une table `fact_revision` (fact_id, rev, contenu JSON, date). Tout contenu généré cite des couples `(fact_id, rev)`, ce qui fige le texte exact qui a servi de preuve. C'est ce qui rend possibles l'instantané immuable et l'affichage d'un fait retiré (spec `candidate-profile`).
 - `profile_version` est un compteur incrémenté à chaque validation de modification.
-- Autres tables : `preference`, `answer_bank`, `offer`, `offer_source`, `offer_analysis`, `match_score`, `kit`, `kit_document`, `verification_report`, `application`, `application_event`, `snapshot`, `llm_call`, `llm_cache`, `background_job`.
+- Autres tables : `preference`, `answer_bank`, `cv_import` (texte extrait et brouillon d'import, pour reprendre une revue interrompue), `offer`, `offer_source`, `offer_analysis`, `match_score`, `kit`, `kit_document`, `verification_report`, `application`, `application_event`, `snapshot`, `llm_call`, `llm_cache`, `background_job`.
 - Les fichiers PDF générés sont stockés sur disque dans le dossier applicatif, référencés par leur hash SHA-256. Les instantanés pointent vers ces hash et ne les modifient jamais.
 
 *Alternatives :* PostgreSQL (surdimensionné en local) ; fichiers JSON (pas de requêtes, pas de transactions).
@@ -84,7 +84,7 @@ Routage par défaut (modifiable dans `tailor.toml`) : **`claude-opus-5-5` pour t
 
 Les **embeddings** sont toujours locaux (`sentence-transformers`, modèle multilingue FR/EN, `intfloat/multilingual-e5-base` en premier candidat) : c'est gratuit, privé, et Anthropic ne propose pas d'API d'embeddings. Les vecteurs sont stockés dans SQLite et la recherche se fait par force brute avec numpy, ce qui suffit pour quelques milliers d'offres.
 
-Cache : clé = hash(fournisseur, modèle, version du prompt, entrées sérialisées). Journal : une ligne `llm_call` par appel. Coûts : barème par modèle dans la configuration.
+Cache : clé = hash(fournisseur, modèle, version du prompt, entrées sérialisées). Pour les démonstrations sans clé, le faux fournisseur peut rejouer des réponses enregistrées (`replies_dir`, un fichier `<prompt_id>.json` par prompt). Journal : une ligne `llm_call` par appel. Coûts : barème par modèle dans la configuration.
 
 Garde-fous de sortie (spec `llm-gateway`) : consentement par fournisseur stocké en base, mode local strict vérifié **dans l'adaptateur** (l'adaptateur cloud refuse de s'exécuter), plafond mensuel vérifié avant chaque appel cloud.
 

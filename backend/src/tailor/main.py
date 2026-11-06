@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from tailor import __version__, db
-from tailor.api import api_router
+from tailor.api import api_router, install_error_handlers
 from tailor.config import Settings, load_settings
 from tailor.llm import LLMConfig, LLMGateway
 from tailor.llm.prompts import PromptLibrary
@@ -55,6 +55,7 @@ def create_app(
     )
     app.state.settings = settings
     app.include_router(api_router)
+    install_error_handlers(app)
     _mount_frontend(app, static_dir)
     app.add_middleware(
         LocalGuard,

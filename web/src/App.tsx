@@ -1,6 +1,8 @@
 import { NavLink, Outlet, createBrowserRouter } from "react-router";
 
 import { Home } from "@/pages/Home";
+import { Profile } from "@/pages/Profile";
+import { Settings } from "@/pages/Settings";
 import { Usage } from "@/pages/Usage";
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
@@ -15,8 +17,14 @@ function Layout() {
           <NavLink to="/" end className={navClass}>
             Accueil
           </NavLink>
+          <NavLink to="/profil" className={navClass}>
+            Profil
+          </NavLink>
           <NavLink to="/consommation" className={navClass}>
             Consommation
+          </NavLink>
+          <NavLink to="/reglages" className={navClass}>
+            Réglages
           </NavLink>
         </nav>
       </header>
@@ -33,7 +41,9 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
+      { path: "profil", element: <Profile /> },
       { path: "consommation", element: <Usage /> },
+      { path: "reglages", element: <Settings /> },
     ],
   },
 ]);

@@ -178,10 +178,781 @@
           }
         }
       }
+    },
+    "/api/profile": {
+      "get": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Get Profile",
+        "operationId": "get_profile_api_profile_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileOut"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/facts": {
+      "post": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Create Fact",
+        "operationId": "create_fact_api_profile_facts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FactCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FactOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/facts/{fact_id}": {
+      "put": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Update Fact",
+        "operationId": "update_fact_api_profile_facts__fact_id__put",
+        "parameters": [
+          {
+            "name": "fact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Fact Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FactUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FactOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Retire Fact",
+        "operationId": "retire_fact_api_profile_facts__fact_id__delete",
+        "parameters": [
+          {
+            "name": "fact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Fact Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetireOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/facts/{fact_id}/revisions": {
+      "get": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Fact Revisions",
+        "operationId": "fact_revisions_api_profile_facts__fact_id__revisions_get",
+        "parameters": [
+          {
+            "name": "fact_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Fact Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RevisionOut"
+                  },
+                  "title": "Response Fact Revisions Api Profile Facts  Fact Id  Revisions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/imports": {
+      "post": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Import Cv",
+        "operationId": "import_cv_api_profile_imports_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_import_cv_api_profile_imports_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/imports/pending": {
+      "get": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Pending Import",
+        "description": "Brouillon en attente de revue (le plus récent), pour reprendre après un rechargement.",
+        "operationId": "pending_import_api_profile_imports_pending_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ImportOut"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Pending Import Api Profile Imports Pending Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/imports/{import_id}": {
+      "get": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Get Import",
+        "operationId": "get_import_api_profile_imports__import_id__get",
+        "parameters": [
+          {
+            "name": "import_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Import Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Discard Import",
+        "operationId": "discard_import_api_profile_imports__import_id__delete",
+        "parameters": [
+          {
+            "name": "import_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Import Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile/imports/{import_id}/validate": {
+      "post": {
+        "tags": [
+          "profil"
+        ],
+        "summary": "Validate Import",
+        "operationId": "validate_import_api_profile_imports__import_id__validate_post",
+        "parameters": [
+          {
+            "name": "import_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Import Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/preferences": {
+      "get": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Read Preferences",
+        "operationId": "read_preferences_api_preferences_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preferences"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Write Preferences",
+        "operationId": "write_preferences_api_preferences_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Preferences"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Preferences"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/answers": {
+      "get": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Read Answers",
+        "operationId": "read_answers_api_answers_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AnswerOut"
+                  },
+                  "type": "array",
+                  "title": "Response Read Answers Api Answers Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Create Answer",
+        "operationId": "create_answer_api_answers_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerIn"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/answers/lookup": {
+      "get": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Lookup Answer",
+        "operationId": "lookup_answer_api_answers_lookup_get",
+        "parameters": [
+          {
+            "name": "question",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Question"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/AnswerOut"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Lookup Answer Api Answers Lookup Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/answers/{entry_id}": {
+      "put": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Update Answer",
+        "operationId": "update_answer_api_answers__entry_id__put",
+        "parameters": [
+          {
+            "name": "entry_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Entry Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Remove Answer",
+        "operationId": "remove_answer_api_answers__entry_id__delete",
+        "parameters": [
+          {
+            "name": "entry_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Entry Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/export": {
+      "get": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Export Data",
+        "operationId": "export_data_api_data_export_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/delete": {
+      "post": {
+        "tags": [
+          "réglages"
+        ],
+        "summary": "Delete All",
+        "operationId": "delete_all_api_data_delete_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteAll"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "AnswerIn": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "answer": {
+            "type": "string",
+            "title": "Answer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "question",
+          "answer"
+        ],
+        "title": "AnswerIn"
+      },
+      "AnswerOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "answer": {
+            "type": "string",
+            "title": "Answer"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "question",
+          "answer",
+          "updated_at"
+        ],
+        "title": "AnswerOut"
+      },
+      "Body_import_cv_api_profile_imports_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_import_cv_api_profile_imports_post"
+      },
       "CallOut": {
         "properties": {
           "id": {
@@ -302,6 +1073,240 @@
         ],
         "title": "DailyUsage"
       },
+      "DeleteAll": {
+        "properties": {
+          "confirmation": {
+            "type": "string",
+            "const": "SUPPRIMER",
+            "title": "Confirmation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "confirmation"
+        ],
+        "title": "DeleteAll"
+      },
+      "Draft": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DraftItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "rejected": {
+            "items": {
+              "$ref": "#/components/schemas/RejectedItem"
+            },
+            "type": "array",
+            "title": "Rejected"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "title": "Draft"
+      },
+      "DraftItem": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/FactKind"
+          },
+          "parent_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Ref"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "source_excerpt": {
+            "type": "string",
+            "title": "Source Excerpt"
+          },
+          "evidence_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "keep": {
+            "type": "boolean",
+            "title": "Keep",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "ref",
+          "kind",
+          "content",
+          "source_excerpt"
+        ],
+        "title": "DraftItem"
+      },
+      "FactCreate": {
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/FactKind"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "content"
+        ],
+        "title": "FactCreate"
+      },
+      "FactKind": {
+        "type": "string",
+        "enum": [
+          "identity",
+          "experience",
+          "achievement",
+          "project",
+          "education",
+          "skill",
+          "language",
+          "certification"
+        ],
+        "title": "FactKind"
+      },
+      "FactOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/FactKind"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "rev": {
+            "type": "integer",
+            "title": "Rev"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "source_excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Excerpt"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "skill_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "supported",
+                  "declarative"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "parent_id",
+          "position",
+          "rev",
+          "content",
+          "source_excerpt",
+          "created_at",
+          "updated_at",
+          "skill_status"
+        ],
+        "title": "FactOut"
+      },
+      "FactUpdate": {
+        "properties": {
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "title": "FactUpdate"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -337,6 +1342,55 @@
           "database"
         ],
         "title": "Health"
+      },
+      "ImportOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "draft": {
+            "$ref": "#/components/schemas/Draft"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "filename",
+          "created_at",
+          "status",
+          "draft"
+        ],
+        "title": "ImportOut"
+      },
+      "ImportValidation": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DraftItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "ImportValidation"
       },
       "LlmStatus": {
         "properties": {
@@ -425,6 +1479,126 @@
         ],
         "title": "LlmUsage"
       },
+      "Preferences": {
+        "properties": {
+          "contract_types": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "cdi",
+                "cdd",
+                "alternance",
+                "stage",
+                "freelance",
+                "interim"
+              ]
+            },
+            "type": "array",
+            "title": "Contract Types"
+          },
+          "locations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Locations"
+          },
+          "work_modes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "sur_site",
+                "hybride",
+                "teletravail_complet"
+              ]
+            },
+            "type": "array",
+            "title": "Work Modes"
+          },
+          "salary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SalaryExpectation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "available_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Available From"
+          },
+          "work_languages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Work Languages"
+          },
+          "work_authorization": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Work Authorization"
+          },
+          "notice_period": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notice Period"
+          },
+          "excluded_companies": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Excluded Companies"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Preferences"
+      },
+      "ProfileOut": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/FactOut"
+            },
+            "type": "array",
+            "title": "Facts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "facts"
+        ],
+        "title": "ProfileOut"
+      },
       "ProviderStatus": {
         "properties": {
           "name": {
@@ -466,6 +1640,92 @@
         ],
         "title": "ProviderStatus"
       },
+      "RejectedItem": {
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/FactKind"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "source_excerpt": {
+            "type": "string",
+            "title": "Source Excerpt"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "content",
+          "source_excerpt",
+          "reason"
+        ],
+        "title": "RejectedItem"
+      },
+      "RetireOut": {
+        "properties": {
+          "retired": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Retired"
+          }
+        },
+        "type": "object",
+        "required": [
+          "retired"
+        ],
+        "title": "RetireOut"
+      },
+      "RevisionOut": {
+        "properties": {
+          "rev": {
+            "type": "integer",
+            "title": "Rev"
+          },
+          "content": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Content"
+          },
+          "source_excerpt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Excerpt"
+          },
+          "profile_version": {
+            "type": "integer",
+            "title": "Profile Version"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rev",
+          "content",
+          "source_excerpt",
+          "profile_version",
+          "created_at"
+        ],
+        "title": "RevisionOut"
+      },
       "RouteStatus": {
         "properties": {
           "task": {
@@ -500,6 +1760,52 @@
           "effort"
         ],
         "title": "RouteStatus"
+      },
+      "SalaryExpectation": {
+        "properties": {
+          "min": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min"
+          },
+          "max": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency",
+            "default": "EUR"
+          },
+          "period": {
+            "type": "string",
+            "enum": [
+              "annuel",
+              "mensuel",
+              "journalier"
+            ],
+            "title": "Period",
+            "default": "annuel"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "SalaryExpectation"
       },
       "ValidationError": {
         "properties": {

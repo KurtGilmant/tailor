@@ -1,7 +1,8 @@
 """Faux fournisseur déterministe : tests, et développement sans dépenser un centime.
 
-Avec des réponses scriptées, il les rend dans l'ordre. Sans script, il fabrique une
-instance minimale valide du schéma demandé (utile pour faire tourner l'interface).
+Avec des réponses scriptées, il les rend dans l'ordre. Avec un dossier de réponses
+enregistrées, il rend `<dossier>/<prompt_id>.json` s'il existe (démo réaliste sans clé).
+Sinon, il fabrique une instance minimale valide du schéma demandé.
 """
 
 from __future__ import annotations
@@ -9,6 +10,7 @@ from __future__ import annotations
 import json
 from collections import deque
 from collections.abc import Callable, Iterable
+from pathlib import Path
 from typing import Any
 
 from tailor.llm.errors import ProviderError
@@ -26,11 +28,13 @@ class FakeProvider(Provider):
         is_cloud: bool = False,
         guard: CloudGuard | None = None,
         tokens: tuple[int, int] = (100, 50),
+        replies_dir: Path | None = None,
     ) -> None:
         super().__init__(name, is_cloud=is_cloud, guard=guard)
         self._scripted = replies is not None
         self._replies: deque[Reply] = deque(replies or [])
         self._tokens = tokens
+        self._replies_dir = replies_dir
         self.requests: list[ProviderRequest] = []
 
     async def _generate(self, request: ProviderRequest) -> ProviderReply:
@@ -40,6 +44,11 @@ class FakeProvider(Provider):
                 raise ProviderError(f"Faux fournisseur « {self.name} » : plus de réponse scriptée.")
             reply = self._replies.popleft()
             text = reply(request) if callable(reply) else reply
+        elif (
+            self._replies_dir
+            and (recorded := self._replies_dir / f"{request.prompt_id}.json").is_file()
+        ):
+            text = recorded.read_text(encoding="utf-8")
         else:
             text = json.dumps(example_from_schema(request.schema), ensure_ascii=False)
         return ProviderReply(text, request.model, *self._tokens)

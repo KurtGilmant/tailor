@@ -27,7 +27,7 @@ consulte aussi avec `openspec view`.
 | Jalon | Contenu | État |
 |---|---|---|
 | M0 | Fondations, sécurité locale, passerelle LLM | ✅ |
-| M1 | Profil maître (import du CV, faits révisionnés) | à faire |
+| M1 | Profil maître (import du CV, faits révisionnés, préférences) | ✅ |
 | M2 | Offres et matching | à faire |
 | M3 | Vérification d'ancrage, CV adapté, évaluation | à faire |
 | M4 | Dossier de candidature et suivi | à faire |

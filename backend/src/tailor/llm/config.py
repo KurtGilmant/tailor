@@ -29,6 +29,8 @@ class ProviderConfig(BaseModel):
     api_key_env: str | None = None
     # Forcer le caractère cloud/local ; par défaut il est déduit du type et de l'URL.
     cloud: bool | None = None
+    # Faux fournisseur uniquement : dossier de réponses enregistrées `<prompt_id>.json`.
+    replies_dir: str | None = None
 
     @property
     def is_cloud(self) -> bool:

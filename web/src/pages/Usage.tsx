@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/api/client";
+import { unwrap } from "@/api/helpers";
 import type { components } from "@/api/schema";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,12 +25,6 @@ import {
 } from "@/lib/format";
 
 type ProviderStatus = components["schemas"]["ProviderStatus"];
-
-async function unwrap<T>(call: Promise<{ data?: T; response: Response }>): Promise<T> {
-  const { data, response } = await call;
-  if (data === undefined) throw new Error(`HTTP ${response.status}`);
-  return data;
-}
 
 export function Usage() {
   const status = useQuery({
