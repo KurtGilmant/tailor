@@ -1,0 +1,37 @@
+schema: spec-driven
+
+context: |
+  Language: fr
+  All artifacts must be written in fr.
+  Keep OpenSpec structural headings and SHALL/MUST keywords in English.
+
+  Projet : Tailor — préparation de candidatures en un clic avec CV adapté par IA.
+  Projet personnel d'un étudiant en IA, non commercial, sans aucune visée de monétisation.
+
+  Principes non négociables (toute change doit les respecter) :
+  - Véracité : aucun contenu généré sur le candidat sans source dans le profil maître.
+    Le CV adapté sélectionne, ordonne et reformule ; il n'invente jamais.
+  - Humain dans la boucle : le système n'envoie jamais une candidature lui-même.
+  - Local-first, mono-utilisateur : données sur la machine de l'utilisateur, pas de comptes.
+  - Sources légitimes : API officielles/publiques uniquement, pas de scraping de sites
+    dont les CGU l'interdisent (LinkedIn, Indeed…). Capture manuelle via l'extension.
+  - Le contenu des offres est une donnée non fiable (risque d'injection de prompt).
+
+  Stack :
+  - Backend : Python 3.13 (géré par uv), FastAPI, Pydantic v2, SQLite (SQLModel + Alembic).
+  - Front : React + Vite + TypeScript, TanStack Query, client typé généré depuis l'OpenAPI.
+  - Extension : Chrome Manifest V3 (WXT, TypeScript).
+  - Documents : Typst (paquet Python) pour le rendu PDF.
+  - LLM : passerelle maison, fournisseurs interchangeables (API Anthropic, serveur local
+    compatible OpenAI type Ollama). Embeddings locaux (sentence-transformers multilingue).
+  - Tests : pytest, Vitest, Playwright. Qualité : ruff, pyright, eslint.
+
+  Machine cible : macOS (Apple Silicon), Node 25, npm.
+
+rules:
+  specs:
+    - Les scénarios doivent être testables et utiliser WHEN/THEN.
+    - Toute exigence touchant à du contenu généré sur le candidat doit préciser comment la véracité est garantie.
+  tasks:
+    - Chaque tâche doit tenir en une session et préciser sa vérification.
+    - Chaque groupe livre ses propres tests ; pas de groupe "tests" final fourre-tout.

@@ -1,0 +1,73 @@
+# Configuration de Tailor — exemple commenté.
+#
+# Copie ce fichier dans le dossier de données sous le nom `tailor.toml` :
+#   macOS : ~/Library/Application Support/Tailor/tailor.toml
+#   (ou $TAILOR_HOME/tailor.toml si la variable est définie)
+# Tout est optionnel : sans fichier, les valeurs par défaut ci-dessous s'appliquent.
+
+[server]
+port = 8765          # l'application n'écoute jamais ailleurs que sur 127.0.0.1
+
+[llm]
+mode = "standard"            # "local_strict" : aucune donnée ne quitte la machine
+# monthly_budget_usd = 10.0  # plafond mensuel des fournisseurs cloud (aucun par défaut)
+max_attempts = 2             # tentatives si la réponse ne respecte pas le schéma
+
+# --- Fournisseurs -----------------------------------------------------------
+# Clé Anthropic : variable ANTHROPIC_API_KEY, ou trousseau macOS :
+#   cd backend && uv run python -m keyring set tailor anthropic
+[llm.providers.anthropic]
+type = "anthropic"
+
+# Tout serveur compatible OpenAI (Ollama, LM Studio, vLLM…). Local => jamais de consentement.
+[llm.providers.ollama]
+type = "openai_compatible"
+base_url = "http://localhost:11434/v1"
+
+# Faux fournisseur : réponses fabriquées depuis le schéma, utile pour tester l'interface
+# sans rien dépenser. `cloud = true` simule un fournisseur cloud (consentement, plafond).
+# [llm.providers.demo]
+# type = "fake"
+
+# --- Routage par tâche --------------------------------------------------------
+# effort : low | medium | high | xhigh | max (Anthropic). Défaut : claude-opus-5-5 partout.
+[llm.routes.extract]   # CV -> faits, offre -> exigences
+provider = "anthropic"
+model = "claude-opus-5-5"
+effort = "low"
+# Variante économique (environ 40 fois moins chère, à valider par `make eval`) :
+# model = "claude-haiku-5-5"
+
+[llm.routes.score]     # couverture des exigences
+provider = "anthropic"
+model = "claude-opus-5-5"
+effort = "medium"
+
+[llm.routes.write]     # puces, accroche, lettre, réponses
+provider = "anthropic"
+model = "claude-opus-5-5"
+effort = "high"
+
+[llm.routes.verify]    # juge d'ancrage
+provider = "anthropic"
+model = "claude-opus-5-5"
+effort = "high"
+
+# Exemple tout local :
+# [llm.routes.extract]
+# provider = "ollama"
+# model = "qwen3:8b"
+
+# --- Tarifs ($ par million de jetons) -------------------------------------------
+# Obligatoires pour tout modèle cloud routé (sinon le plafond ne pourrait pas s'appliquer).
+[llm.pricing."claude-opus-5-5"]
+input = 4.0
+output = 20.0
+
+[llm.pricing."claude-sonnet-5-5"]
+input = 2.0
+output = 10.0
+
+[llm.pricing."claude-haiku-5-5"]
+input = 0.10
+output = 0.50

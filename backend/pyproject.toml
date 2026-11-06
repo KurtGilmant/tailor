@@ -1,0 +1,60 @@
+[project]
+name = "tailor"
+version = "0.1.0"
+description = "Préparation de candidatures en un clic avec CV adapté par IA, ancré dans un profil vérifiable."
+readme = "README.md"
+authors = [{ name = "Kurt" }]
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "alembic>=1.20.1",
+    "anthropic>=2.6.0",
+    "fastapi>=0.162.0",
+    "httpx>=0.28.1",
+    "keyring>=25.7.0",
+    "openai>=3.46.0",
+    "platformdirs>=4.14.5",
+    "pydantic>=2.14.3",
+    "sqlmodel>=0.0.48",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+tailor = "tailor.main:main"
+
+[build-system]
+requires = ["uv_build>=0.8.17,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.414",
+    "pytest>=9.2.0",
+    "respx>=0.23.1",
+    "ruff>=0.17.4",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["src/tailor/migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]  # caractères accentués/typographiques français dans les chaînes
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.13"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "integration: appelle un vrai fournisseur LLM (ignoré si non configuré)",
+]

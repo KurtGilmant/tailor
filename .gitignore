@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.pyright/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.output/
+.wxt/
+*.tsbuildinfo
+
+# Front buildé copié dans le backend
+backend/src/tailor/static/
+
+# Secrets et données locales (les vraies données vivent dans le dossier applicatif de l'OS)
+.env
+.env.*
+!.env.example
+tailor.toml
+*.sqlite
+*.sqlite3
+*.db
+
+# Rapports d'évaluation générés
+evals/reports/
+
+# OS / éditeurs
+.DS_Store
+.idea/
+.vscode/
